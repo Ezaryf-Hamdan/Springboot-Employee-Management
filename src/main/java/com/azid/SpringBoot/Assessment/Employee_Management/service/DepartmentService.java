@@ -1,4 +1,4 @@
-package com.azid.SpringBoot_.Assessment_.Employee_Management.service;
+package com.azid.SpringBoot.Assessment.Employee_Management.service;
 
 public class DepartmentService {
 }

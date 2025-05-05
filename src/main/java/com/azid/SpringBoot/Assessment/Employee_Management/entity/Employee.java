@@ -1,4 +1,4 @@
-package com.azid.SpringBoot_.Assessment_.Employee_Management.entity;
+package com.azid.SpringBoot.Assessment.Employee_Management.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.azid.SpringBoot_.Assessment_.Employee_Management.controller;
+package com.azid.SpringBoot.Assessment.Employee_Management.controller;
 
 public class EmployeeController {
 }

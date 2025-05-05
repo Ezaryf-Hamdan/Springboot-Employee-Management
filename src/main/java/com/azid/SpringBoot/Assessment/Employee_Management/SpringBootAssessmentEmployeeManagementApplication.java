@@ -1,4 +1,4 @@
-package com.azid.SpringBoot_.Assessment_.Employee_Management;
+package com.azid.SpringBoot.Assessment.Employee_Management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
