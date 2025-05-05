@@ -6,25 +6,28 @@ import com.azid.SpringBoot.Assessment.Employee_Management.entity.User;
 import com.azid.SpringBoot.Assessment.Employee_Management.service.UserService;
 import com.azid.SpringBoot.Assessment.Employee_Management.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class UserController {
+public class AuthController {
 
     private final AuthenticationManager authManager;
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
+    @GetMapping
+    public String authPage() {
+        return "auth"; // This maps to auth.html in the templates folder
+    }
+
     @PostMapping("/register")
+    @ResponseBody
     public String register(@RequestBody UserRequestDTO request) {
         User user = User.builder()
                 .username(request.getUsername())
@@ -35,6 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @ResponseBody
     public UserResponseDTO login(@RequestBody UserRequestDTO request) {
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
