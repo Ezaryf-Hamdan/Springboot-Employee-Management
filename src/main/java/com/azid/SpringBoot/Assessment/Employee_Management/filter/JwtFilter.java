@@ -1,13 +1,13 @@
 package com.azid.SpringBoot.Assessment.Employee_Management.filter;
 
-import com.azid.SpringBoot.Assessment.Employee_Management.service.UserService;
 import com.azid.SpringBoot.Assessment.Employee_Management.util.JwtUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,11 @@ import java.io.IOException;
 public class JwtFilter extends GenericFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserService userService;
+    private final BeanFactory beanFactory;
+
+    private UserDetailsService getUserDetailsService() {
+        return beanFactory.getBean(UserDetailsService.class);
+    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -30,7 +34,7 @@ public class JwtFilter extends GenericFilter {
             String token = authHeader.substring(7);
             String username = jwtUtil.extractUsername(token);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                var userDetails = userService.loadUserByUsername(username);
+                var userDetails = getUserDetailsService().loadUserByUsername(username);
                 if (jwtUtil.validateToken(token)) {
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
